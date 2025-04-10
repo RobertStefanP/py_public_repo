@@ -17,8 +17,8 @@ class TradeExecution:
             if not current_price:
                 return None, None
         
-            sl = current_price - 6 if signal_type == 'bullish' else current_price + 6
-            tp = current_price + 10 if signal_type == 'bullish' else current_price - 10
+            sl = current_price - 10 if signal_type == 'bullish' else current_price + 10
+            tp = current_price + 20 if signal_type == 'bullish' else current_price - 20
         
             parent_order = MarketOrder('BUY' if signal_type == 'bullish' else 'SELL', 2)
             parent_order.transmit = False 

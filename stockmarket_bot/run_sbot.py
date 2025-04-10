@@ -1,12 +1,13 @@
 from datetime import datetime
+from email import message
 from ib_insync import Future
 
 from telegram_message import send_telegram_message
 from prints import log_to_file
 from broker_connection import BrokerConnection
 from session_manager import SessionManager
-from data_handler import DataHandler
-from signal_detection import SignalDetection
+
+from signal_detector import SignalDetector
 from timing_manager import TimingManager
 from event_handler import EventHandler
 from trade_execution import TradeExecution
@@ -16,9 +17,8 @@ from prints import print_error, print_bar_details
 if __name__ == "__main__":     
     broker = BrokerConnection(host='127.0.0.1', port=7497, clientId=2) 
     contract = Future(symbol='MES', lastTradeDateOrContractMonth='20250620', exchange='CME')
-    session_manager = SessionManager(broker.ib, contract)
-    data_handler = DataHandler(broker.ib, contract)
-    signal_detector = SignalDetection(data_handler) 
+    session_manager = SessionManager(broker.ib, contract)    
+    signal_detector = SignalDetector(broker.ib, contract) 
     timing_manager = TimingManager(broker.ib, contract, session_manager)
     event_handler = EventHandler(broker.ib, session_manager)
     trade_execution = TradeExecution(broker.ib, contract, session_manager, timing_manager)
@@ -69,12 +69,48 @@ if __name__ == "__main__":
                             wait_seconds = (next_run_time - datetime.now()).total_seconds()                
                             session_manager.update_event.wait(wait_seconds)
                             session_manager.update_event.clear()                           
-                            historical_data = data_handler.fetch_historical_data('2 D', '5 mins', 'TRADES')
-                            
+                            historical_data = signal_detector.fetch_historical_data('2 D', '5 mins', 'TRADES')
+                                                                                                                                
                             if historical_data is not None and not historical_data.empty:
-                                add_indicators, current_price, latest_ema, latest_sma = data_handler.calculate_indicators(historical_data)                                      
-                                                                                                                                            
-                                                                                                          
+                                current_time = datetime.now().strftime('%H:%M:%S') 
+                                indicators = signal_detector.calculate_indicators(historical_data)                                  
+                                                            
+                                if indicators is not None and not indicators.empty:
+                                    current_time = datetime.now().strftime('%H:%M:%S') 
+                                                                                                                                                
+                                    if not session_manager.monitoring_orders_mode:
+                                        try:                                             
+                                            current_time = datetime.now().strftime('%H:%M:%S')
+                                            current_price = indicators['close'].iloc[-1]
+                                            signal_type, message = signal_detector.bars_close(indicators)
+                                                                                        
+                                            if signal_type:
+                                    
+                                                print(f"\n{current_time} - {message}")
+                                                print(f"indicators: \n{indicators}")                                                                                                                                                                                                                                            
+                                                                                                
+                                                sl, tp = trade_execution.place_bracket_order(current_price, signal_type)
+                                                
+                                                print(f"{current_time} - Bracket order placed, with SL at {sl} and TP at {tp}")                                                
+                                                session_manager.monitoring_orders_mode = True
+                                                
+                                                while session_manager.monitoring_orders_mode:
+                                                    current_time = datetime.now().strftime('%H:%M:%S')
+                                                    monitoring_orders_mode = True
+                                                    print(f"{current_time} - Active orders, waiting...")
+                                                    broker.ib.sleep(30)
+
+                                                    current_time = datetime.now().strftime('%H:%M:%S')
+                                                    print(f"\n{current_time} - Checking...")
+
+                                                    session_manager.check_orders()
+                                                    session_manager.check_positions()
+                                        except Exception as e:
+                                            print_error(str(e))   
+                                    else:
+                                        pass             
+                                else:
+                                    print(f"{current_time} - No data to calculate indicators.")                                                                                                                                                    
                             else:
                                 print(f"{current_time} - No historical data available or data is empty.")                                
             current_time = datetime.now().strftime('%H:%M:%S')
