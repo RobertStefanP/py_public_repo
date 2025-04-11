@@ -79,12 +79,17 @@ if __name__ == "__main__":
                                     current_price = indicators['close'].iloc[-1]                                                                                                                                                                   
                                     indicators_value = signal_detector.check_crossover(indicators)  
                                                                                 
-                                    if indicators_value:
-                                        signal_type, message = signal_detector.check_signals()  
-                                        print(f"\n{current_time} - {message}")     
-                                                                                
-                                        if signal_type is not None:                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-                                            sl, tp = trade_execution.place_bracket_order(current_price, signal_type)                                            
+                                    if indicators_value:  
+                                        current_time = datetime.now().strftime('%H:%M:%S')                                     
+                                        signal, message = signal_detector.check_signals()
+                                        position = indicators_value 
+                                        print(f"{current_time} - Long: bear, bull, bull")
+                                        print(f"{current_time} - Short: bull, bear, bear")
+                                        print(f"{current_time} - Current: {position[-3]}, {position[-2]}, {position[-1]}")
+                                        print(f"{current_time} - {message}")      
+                                                                               
+                                        if signal is not None:                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                            sl, tp = trade_execution.place_bracket_order(current_price, signal)                                            
                                             print(f"{current_time} - Bracket order placed, with SL at {sl} and TP at {tp}")                                                
                                             session_manager.monitoring_orders_mode = True
                                             

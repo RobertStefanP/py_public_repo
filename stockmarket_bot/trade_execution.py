@@ -1,7 +1,6 @@
 import time
 from ib_insync import MarketOrder, LimitOrder
 
-from log_to_file import log_to_file
 from prints import print_error
 
 
@@ -20,7 +19,7 @@ class TradeExecution:
             sl = current_price - 10 if signal_type == 'bullish' else current_price + 10
             tp = current_price + 20 if signal_type == 'bullish' else current_price - 20
         
-            parent_order = MarketOrder('BUY' if signal_type == 'bullish' else 'SELL', 2)
+            parent_order = MarketOrder('BUY' if signal_type == 'bullish' else 'SELL', 1)
             parent_order.transmit = False 
                     
             self.ib.placeOrder(self.contract, parent_order) 
@@ -33,7 +32,7 @@ class TradeExecution:
             stop_loss_order.parentId = parent_order.orderId
             stop_loss_order.transmit = False
                     
-            take_profit_order = LimitOrder('SELL' if signal_type == 'bullish' else 'BUY', 2, tp)
+            take_profit_order = LimitOrder('SELL' if signal_type == 'bullish' else 'BUY', 1, tp)
             take_profit_order.parentId = parent_order.orderId 
             take_profit_order.transmit = True    
             take_profit_order.outsideRth = True 

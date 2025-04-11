@@ -61,13 +61,13 @@ class SessionManager:
                 print_orders(relevant_orders, brackets) 
 
                 if relevant_orders:                                                           
-                    self.monitoring_orders_mode = True
-                                           
+                    self.monitoring_orders_mode = True 
+                                                              
                 return relevant_orders, brackets                         
             else:
                 self.monitoring_orders_mode = False
                 print_orders(relevant_orders, brackets)
-
+                
         except Exception as e:
             print_error(str(e))
             return [], {}, f"Error in check_open_orders: {str(e)}"
