@@ -9,8 +9,8 @@ class SignalDetector:
         self.ib = ib  
         self.contract = contract  
         self.first_run = True  
-        self.daily_bars_details = []  
-
+        self.indicators_value = []  
+        
     def fetch_historical_data(self, duration, bar_size, what_to_show):         
         bars = self.ib.reqHistoricalData(
             self.contract,  
@@ -34,11 +34,57 @@ class SignalDetector:
             
             historical_data['EMA'] = historical_data['EMA'].round(2) 
             historical_data['SMA'] = historical_data['SMA'].round(2) 
-                                               
+                        
+            historical_data = historical_data.tail(20)                                   
             return historical_data 
         else:
             return None
 
-        
+    def check_crossover(self, indicators): 
+        try:
+            values_list = []            
+            if indicators is None or indicators.empty:
+                return "No data to calculate crossover"    
+            
+            for index, row in indicators.iterrows():
+                ema, sma = row['EMA'], row['SMA']            
+                print(f"ema value: {ema}, sma value: {sma}")
                 
+                if ema > sma:
+                    print(f"bull: {ema > sma}")
+                    values_list.append('bull')  
+                elif ema < sma:
+                    print(f"bear: {ema < sma}")
+                    values_list.append('bear')
+                elif ema == sma:
+                    print(f"else: equal? - {ema, sma}")
+                    print(f"here equal: {ema == sma}")
+                    values_list.append('equal')
+                                                         
+            self.indicators_value = values_list[-10:]
+            print(f"self.indicators_value: - {self.indicators_value}")             
+            return self.indicators_value
+                                                                               
+        except Exception as e:            
+            print_error(str(e)) 
+            return str(e)       
     
+    def check_signals(self):
+        try:
+            if self.indicators_value:                                                               
+                if (self.indicators_value[-3] != self.indicators_value[-2] and 
+                    self.indicators_value[-2] == self.indicators_value[-1]):   
+                            
+                    if self.indicators_value[-1] == 'bull':
+                        return 'bullish', 'BULLISH signal detected!'            
+                    if self.indicators_value[-1] == 'bear':
+                        return 'bearish', 'BEARISH signal detected!'                           
+                # else:                   
+                #     return None, "NO signal detected!"
+            
+            return None, 'NO signal detected!'
+            
+        except Exception as e:            
+            print_error(str(e)) 
+            return 'error', str(e)      
+              
