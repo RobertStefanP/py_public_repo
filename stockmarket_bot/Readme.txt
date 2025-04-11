@@ -13,8 +13,9 @@ a monitoring mode if yes, checking every 30 seconds if the orders are filled. Wh
 filled, a print info will be displayed highlightning the filled order in a bright 
 color, and then it will wait till minute 5 and 8 second to check for signals. 
 
-	The bot will check for signals of crossvers as long we don't have any open 
-orders or positions for the currrent contract. If a signal is detected, a trade 
+	The bot will check for signals of crossver as long we don't have any open 
+orders/positions for the currrent contract, else it will wait till filled, 
+and constantly checking for their status. If a signal is detected, a trade 
 will be executed depending of the type of signal, short or long(if its a buy 
 signal, a green print will be displayed with the details of the trade, if is 
 a sell signal, the prints will be red displaying the details of the drate). Also 
