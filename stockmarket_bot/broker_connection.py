@@ -10,7 +10,7 @@ class BrokerConnection:
         self.clientId = clientId
         self.ib = IB()  
         self.last_error = None
-        self.start = active_time(8, 31)
+        self.start = active_time(00, 5)
         self.end = active_time(22, 59)
 
     def connect(self):

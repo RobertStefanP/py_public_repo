@@ -6,12 +6,11 @@ from telegram_message import send_telegram_message
 from prints import log_to_file
 from broker_connection import BrokerConnection
 from session_manager import SessionManager
-
 from signal_detector import SignalDetector
 from timing_manager import TimingManager
 from event_handler import EventHandler
 from trade_execution import TradeExecution
-from prints import print_error, print_bar_details
+from prints import print_error
 
 
 if __name__ == "__main__":     
@@ -62,57 +61,7 @@ if __name__ == "__main__":
                             print(f"{current_time} - ...no open orders/positions found.") 
                             
                         while True:
-                            current_time = datetime.now().strftime('%H:%M:%S')
-                            print(f"{current_time} - Waiting untill the next signal check.")
-
-                            next_run_time = timing_manager.calculate_next_signal_check_time()
-                            wait_seconds = (next_run_time - datetime.now()).total_seconds()                
-                            session_manager.update_event.wait(wait_seconds)
-                            session_manager.update_event.clear()                           
-                            historical_data = signal_detector.fetch_historical_data('2 D', '5 mins', 'TRADES')
-                                                                                                                                
-                            if historical_data is not None and not historical_data.empty:
-                                current_time = datetime.now().strftime('%H:%M:%S') 
-                                indicators = signal_detector.calculate_indicators(historical_data)                                  
-                                                            
-                                if indicators is not None and not indicators.empty:
-                                    current_time = datetime.now().strftime('%H:%M:%S') 
-                                                                                                                                                
-                                    if not session_manager.monitoring_orders_mode:
-                                        try:                                             
-                                            current_time = datetime.now().strftime('%H:%M:%S')
-                                            current_price = indicators['close'].iloc[-1]
-                                            signal_type, message = signal_detector.bars_close(indicators)
-                                                                                        
-                                            if signal_type:
-                                    
-                                                print(f"\n{current_time} - {message}")
-                                                print(f"indicators: \n{indicators}")                                                                                                                                                                                                                                            
-                                                                                                
-                                                sl, tp = trade_execution.place_bracket_order(current_price, signal_type)
-                                                
-                                                print(f"{current_time} - Bracket order placed, with SL at {sl} and TP at {tp}")                                                
-                                                session_manager.monitoring_orders_mode = True
-                                                
-                                                while session_manager.monitoring_orders_mode:
-                                                    current_time = datetime.now().strftime('%H:%M:%S')
-                                                    monitoring_orders_mode = True
-                                                    print(f"{current_time} - Active orders, waiting...")
-                                                    broker.ib.sleep(30)
-
-                                                    current_time = datetime.now().strftime('%H:%M:%S')
-                                                    print(f"\n{current_time} - Checking...")
-
-                                                    session_manager.check_orders()
-                                                    session_manager.check_positions()
-                                        except Exception as e:
-                                            print_error(str(e))   
-                                    else:
-                                        pass             
-                                else:
-                                    print(f"{current_time} - No data to calculate indicators.")                                                                                                                                                    
-                            else:
-                                print(f"{current_time} - No historical data available or data is empty.")                                
+                                                          
             current_time = datetime.now().strftime('%H:%M:%S')
             time_left = broker.time_left()
             print(f"{current_time} - Outside trading hours, time left: {time_left}")

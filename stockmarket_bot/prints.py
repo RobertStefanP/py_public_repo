@@ -19,7 +19,6 @@ def log_to_file(message):
     with open(log_file_path, 'a') as f:
         f.write(f"{timestamp} - {message}\n")
 
-
 def print_orders(relevant_orders, brackets):
     current_time = datetime.now().strftime('%H:%M:%S')
     
@@ -41,7 +40,6 @@ def print_orders(relevant_orders, brackets):
     else:
         print(f"{current_time} - No open orders.")
 
-
 def print_positions(position_details):
     current_time = datetime.now().strftime('%H:%M:%S')
     if position_details: 
@@ -49,7 +47,6 @@ def print_positions(position_details):
             print(f"{current_time} - Position active: {pos['symbol']}, Qty: {pos['position']}, Avg Cost: {pos['avg_cost']}")
     else:
         print(f"{current_time} - No open positions.")
-
 
 init(autoreset=True)
 order_id = {}
@@ -106,29 +103,6 @@ def print_order_status(trade):#, order, status, contract, filled, remaining)
         f"\n{style}{color}Order {status.status}: {contract.symbol} {contract.secType} {contract.lastTradeDateOrContractMonth}, Action: {order.action}",
         f"\n{style}{color}Order Type: {order.orderType}, Quantity: {order.totalQuantity}, Filled: {filled}, Remaining: {remaining}",
         f"\n{style}{color}LMT Price: {getattr(order, 'lmtPrice', 'N/A')}, STP Price: {getattr(order, 'auxPrice', 'N/A')}")
-
-
-def print_bar_details(bar_details, label="Bar Details"):
-        current_time = datetime.now().strftime('%H:%M:%S')
-        if bar_details: 
-            df = pd.DataFrame(bar_details)             
-            columns_to_drop = ["volume", "average", "barCount"]
-            df = df.drop(columns=[col for col in columns_to_drop if col in df.columns])
-            
-            df['date'] = pd.to_datetime(df['date'])  
-            df = df.sort_values(by='date', ascending=True)  
- 
-            print(f"{current_time} - {label}:")
-            print(df)             
-        else:
-            print(f"\n{current_time} - {label}: \n\t\tNo data to display.") 
-
-
-def adjust_price(symbol, price):
-    if symbol == 'MES': 
-        return price / 5  
-    return price
-
 
 def print_error(error_msg):
     print(f"Error: {error_msg}")

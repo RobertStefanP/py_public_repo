@@ -1,7 +1,6 @@
 import threading
 
-from prints import print_error
-from prints import print_orders, print_positions
+from prints import print_orders, print_positions, print_error
 from event_handler import EventHandler 
 
 

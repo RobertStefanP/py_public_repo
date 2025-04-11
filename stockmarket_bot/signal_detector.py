@@ -39,23 +39,6 @@ class SignalDetector:
         else:
             return None
 
-    def bars_close(self, indicators): 
-        try:
-            if indicators is None or indicators.empty:
-                return None, "No data to calculate indicators"  
-                                                                                                      
-            if indicators['open'].iloc[-2] < indicators['close'].iloc[-2]:                    
-                print(f"Bullish: open:{indicators['open'].iloc[-2]} < close:{indicators['close'].iloc[-2]}")
-                return 'bullish', 'BULLISH signal detected!' 
-                                
-            if indicators['close'].iloc[-2] > indicators['open'].iloc[-2]:                   
-                print(f"Bearish: open:{indicators['open'].iloc[-2]} > close:{indicators['close'].iloc[-2]}")
-                return 'bearish', 'BEARISH signal detected!'                             
-            else:    
-                return None, "NO signal detected!"
-                                                   
-        except Exception as e:            
-            print_error(str(e)) 
-            return None, str(e)       
+        
                 
     
