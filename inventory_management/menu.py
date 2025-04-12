@@ -4,23 +4,23 @@ import sys
 from inventario import Producto, Inventario
 
 
-def elija_opcion():
-    while True:
-        print("  Elija opcion:")
-        print("  1 -Intentar con otro producto.\n  2 -Volver al menu principal.\n")
-        opcion = input("  Opcion 1 o 2: ")
-        if opcion == "1":
-            break
-        elif opcion == "2":
-            print("Volviendo al menú principal")
-            nombre = None 
-            volver_al_menu = True                                
-            break
-        else:
-            print("--ERROR! Opcion no valida, elegir 1 o 2.")
-            continue
-        if volver_al_menu:  
-            break
+def elija_opcion(): 
+    #print("  Elija opcion:")  
+    print("  1 -Reintentar.\n  2 -Salir.\n") 
+    opcion = input("-Elija 1 o 2: ")
+    if opcion == "1":
+        return 'reintentar', None
+    elif opcion == "2":
+#        print("Volver al menu.")
+        nombre = None 
+        volver_al_menu = True                                
+        return 'salir', True
+    else:
+        print("-Opcion no valida, elegir 1 o 2.")
+        return 'error', None
+    if volver_al_menu:  
+        return '', True
+    return 'error', None
 
 inventario = Inventario()    
 while True:
@@ -39,30 +39,47 @@ while True:
                      
         if opcion == 1:                    
             while not volver_al_menu:                
-                nombre = input("  Introduzca el produco que desea agregar: ") 
+                nombre = input("\t- Introduzca el produco que desea agregar: ") 
                 if inventario.producto_existente(nombre):  
-                    print("\n--ERROR! El producto ya existe en el inventario.")                                                         
+                    print("\n-El producto ya existe en el inventario.")                                                         
                     while True:
-                        print("  Elija opcion:")
-                        print("  1 -Intentar con otro producto.\n  2 -Volver al menu principal.\n")
-                        opcion = input("  Opcion 1 o 2: ")
-                        if opcion == "1":
+                        
+                        mensaje, volver = elija_opcion()
+                        if mensaje == 'reintentar' and volver is None:
+                            print(f"\t- {mensaje.title()}")
                             break
-                        elif opcion == "2":
-                            print("Volviendo al menú principal")
-                            nombre = None 
-                            volver_al_menu = True                                
+                        elif mensaje == 'error' and volver is not None:
+                            continue                      
+                        
+                        
+                        # print("  Elija opcion:")  
+                        # print("  1 -Reintentar.\n  2 -Salir.\n")                        
+                        # while True:
+                        #     opcion = input("  Opcion 1 o 2: ")1
+                        
+                        #     if opcion == "1":
+                        #         break
+                        #     elif opcion == "2":
+                        #         print("Salir al menú principal")
+                        #         nombre = None 
+                        #         volver_al_menu = True                                
+                        #         break
+                        #     else:
+                        #         print("-ERROR! Opcion no valida, elegir 1 o 2.")
+                        #         continue
+                        
+                        
+                        
+                        volver_al_menu = True                                
+                        if volver_al_menu:  
                             break
-                        else:
-                            print("--ERROR! Opcion no valida, elegir 1 o 2.")
-                            continue
                     if volver_al_menu:  
                         break
                 else:    
                     if re.fullmatch(r"[a-zA-Z0-9\s]+", nombre) and nombre.strip() != "":
                             break                         
                     else: 
-                        print("\n--ERROR! El espacio no puede ser vacio o tener caracteres especiales.") 
+                        print("\n-ERROR! El espacio no puede ser vacio o tener caracteres especiales.") 
                                                        
             if nombre and not volver_al_menu:                                                                                   
                 while not volver_al_menu:                    
@@ -70,9 +87,9 @@ while True:
                     if re.fullmatch(r"[a-zA-Z0-9\s]+", categoria) and categoria.strip() != "":
                         break
                     else:
-                        print("\n--ERROR! El espacio no puede ser vacio o tener caracteres especiales.")                         
+                        print("\n-ERROR! El espacio no puede ser vacio o tener caracteres especiales.")                         
                         while True:
-                            print(" 1 -Reintroducir categoria.\n 2 -Volver al menu principal.\n")
+                            print(" 1 -Reintentar.\n 2 -Volver.\n")
                             reintento_o_menuprincipal = input("  Opcion 1 o 2: ")
                                             
                             if reintento_o_menuprincipal == "1":
@@ -96,7 +113,7 @@ while True:
                                 break 
                             else:                                
                                 while True: 
-                                    print("1 -Reintentar\n2 -Volver al menu principal")
+                                    print("1 -Reintentar.\n2 -Volver.")
                                     reintentar_o_menu = input("\n   Opcion 1 o 2: ")
 
                                     if reintentar_o_menu == "1":
@@ -112,9 +129,9 @@ while True:
                             if volver_al_menu: 
                                 break                                
                         except ValueError:
-                            print("\n--ERROR! Introducir un valor numerico valido.")                                                                             
+                            print("\n-ERROR! Introducir un valor numerico valido.")                                                                             
                             while True: 
-                                print("1 -Reintentar \n2 -Volver al menu principal")
+                                print("1 -Reintentar. \n2 -Volver.")
                                 reintentar_o_menu = input("\n   Elija 1 o 2: ")
 
                                 if reintentar_o_menu == "1":
@@ -125,7 +142,7 @@ while True:
                                     volver_al_menu = True
                                     break  
                                 else:
-                                    print("--ERROR! Opcion no valida, elija 1 o 2.")
+                                    print("-ERROR! Opcion no valida, elija 1 o 2.")
                                     continue           
                                                             
                     if precio is not None and not volver_al_menu:
@@ -136,10 +153,10 @@ while True:
                                 if cantidad > 0:
                                     break  
                                 else:
-                                    print("--ERROR! La cantidad no puede ser 0 o negativa.")
+                                    print("-ERROR! La cantidad no puede ser 0 o negativa.")
                             
                                     while True:  
-                                        print("1 -Reintentar introducir cantidad\n2 -Volver al menú principal")
+                                        print("1 -Reintentar.\n2 -Volver.")
                                         reintentar_o_menu = input("\n   Elija 1 o 2: ")
 
                                         if reintentar_o_menu == "1":                                            
@@ -150,18 +167,18 @@ while True:
                                             volver_al_menu = True
                                             break  
                                         else:
-                                            print("--ERROR! Opción no válida, elija 1 o 2.")
+                                            print("-ERROR! Opción no válida, elija 1 o 2.")
                                             continue                              
                                 if volver_al_menu:
                                     break                                
                             except ValueError:
-                                print("--ERROR! Introducir un valor numerico valido.")                                
+                                print("-ERROR! Introducir un valor numerico valido.")                                
                     if precio is not None and cantidad is not None:
                         producto = Producto(nombre, categoria, precio, cantidad)  
                         if inventario.agregar_producto(producto):  
                             print(f"\nProducto '{nombre}' agregado correctamente al inventario.") 
                         else:
-                            print(f"--ERROR! El producto '{producto.get_nombre()}' ya existe en el inventario.")                             
+                            print(f"-ERROR! El producto '{producto.get_nombre()}' ya existe en el inventario.")                             
                         inventario.mostrar_inventario()  
                                                                  
         elif opcion ==2:                                                       
@@ -178,12 +195,12 @@ while True:
                             try:
                                 nuevo_precio = float(nuevo_precio)
                                 if nuevo_precio == 0:
-                                    print("--ERROR! El precio no puede ser 0. Inténtelo de nuevo.")
+                                    print("-ERROR! El precio no puede ser 0. Inténtelo de nuevo.")
                                     continue  
                                 else:
                                     break  
                             except ValueError:
-                                print("\n--ERROR! Debe introducir un valor numérico válido.")
+                                print("\n-ERROR! Debe introducir un valor numérico válido.")
                                 continue  
                         while True:    
                             nueva_cantidad = input("\n  Introduzca la nueva cantidad (dejar vacío para no cambiar): ")
@@ -194,19 +211,19 @@ while True:
                             try:
                                 nueva_cantidad = float(nueva_cantidad)
                                 if nueva_cantidad <= 0:
-                                    print("--ERROR! La cantidad debe ser mayor que 0. Inténtelo de nuevo.")
+                                    print("-ERROR! La cantidad debe ser mayor que 0. Inténtelo de nuevo.")
                                     continue
                                 else:
                                     break                                
                             except ValueError:
-                                print("--ERROR! Debe introducir un valor numérico válido.")                                                                                
+                                print("-ERROR! Debe introducir un valor numérico válido.")                                                                                
                         inventario.actualizar_producto(nombre_producto, nuevo_precio, nueva_cantidad)
                         print(f"Producto '{nombre_producto}' actualizado correctamente.")
                         break                                 
                     else:
                         while True: 
-                            print("\n--ERROR! Producto no encontrado!")
-                            print("\n 1 -Reintentar actualizar producto.\n 2 -Volver al menu principal.")
+                            print("\n-ERROR! Producto no encontrado!")
+                            print("\n 1 -Reintentar.\n 2 -Volver.")
                             reintento_o_menuprincipal = input("\n   Elija 1 o 2: ")
                             if reintento_o_menuprincipal == "1":                                
                                 break
@@ -215,12 +232,12 @@ while True:
                                 volver_al_menu = True
                                 break
                             else:
-                                print("--ERROR! Opcion no valida, elige 1 o 2.")
+                                print("-ERROR! Opcion no valida, elige 1 o 2.")
                                 continue
                     if volver_al_menu:
                         break                                         
                 except ValueError:
-                    print("--ERROR! Debe introducir un valor numérico válido.")    
+                    print("-ERROR! Debe introducir un valor numérico válido.")    
                                                                                                          
         elif opcion == 3:
             while not volver_al_menu:                
@@ -230,8 +247,8 @@ while True:
                     break
                 else:
                     while True:
-                        print("\n--ERROR! Producto no encontrado!")
-                        print(" 1 -Reintentar a eliminar.\n 2 -Volver al menú principal.")
+                        print("\n-ERROR! Producto no encontrado!")
+                        print(" 1 -Reintentar.\n 2 -Volver.")
                         reintento_o_menuprincipal = input("\n   Elija 1 o 2: ")
                         if reintento_o_menuprincipal == "1":
                             break  
@@ -240,7 +257,7 @@ while True:
                             print("Volviendo al menu principal.")
                             break  
                         else:
-                            print("--ERROR! Opción no válida, elige 1 o 2.")
+                            print("-ERROR! Opción no válida, elige 1 o 2.")
                             continue                            
                 if volver_al_menu:
                     break                    
@@ -263,8 +280,8 @@ while True:
                     break                  
                 else:                         
                     while True:
-                        print("\n--ERROR! Producto no encontrado!")
-                        print(" 1 -Reiniciar la busqueda\n 2 -Volver al menú principal")
+                        print("\n-ERROR! Producto no encontrado!")
+                        print(" 1 -Reintentar.\n 2 -Volver.")
                         reintento_o_menuprincipal = input("\n   Elija 1 o 2: ")
                         if reintento_o_menuprincipal == "1":
                             break  
@@ -273,7 +290,7 @@ while True:
                             print("Volviendo al menú principal.")
                             break  
                         else:
-                            print("--ERROR! Opción no válida, elige 1 o 2.")
+                            print("-ERROR! Opción no válida, elige 1 o 2.")
                             continue
                 if volver_al_menu:  
                     break           
@@ -282,6 +299,7 @@ while True:
             print("  Saliendo del programa.")
             sys.exit()            
         else:
-            print("--ERROR! Debe introducir un número válido del 1 al 6.")                                
+            print("-ERROR! Debe introducir un número válido del 1 al 6.")                                
     except ValueError:
-        print("--ERROR! Debe introducir un numero.")
+        print("-ERROR! Debe introducir un numero.")
+        
