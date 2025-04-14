@@ -1,3 +1,5 @@
+import pandas as pd
+
 
 class Producto:
     def __init__(self, nombre, categoria, precio, cantidad):
@@ -56,11 +58,20 @@ class Inventario:
                 return True
         return False    
 
-    def mostrar_inventario(self):  
+    def mostrar_inventario(self): 
+        inventario = []
         if not self._inventario:
-            return None
+            return None        
         else:
-            return self._inventario  
+            for producto in self._inventario:
+                inventario.append({
+                    'Nombre': producto.get_nombre().title(),
+                    'Categoria': producto.get_categoria().title(),
+                    'Precio': producto.get_precio(),
+                    'Cantidad': producto.get_cantidad(),
+                    })
+            df_inventario = pd.DataFrame(inventario)                
+            return df_inventario  
                 
     def actualizar_producto(self, nombre_producto, nuevo_precio=None, nueva_cantidad=None): 
         for producto in self._inventario:
@@ -81,6 +92,6 @@ class Inventario:
     
     def buscar_producto(self, nombre_producto):  
         for producto in self._inventario:
-            if producto.get_nombre == nombre_producto:
+            if producto.get_nombre() == nombre_producto:
                 return producto 
         return None 
