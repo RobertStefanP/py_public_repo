@@ -37,6 +37,7 @@ class Producto:
             self._cantidad = cantidad
        
     def mostrar_info(self):
+        
         print(f"\nProducto: {self._nombre}\n"
             f"Categoria: {self._categoria}\n"
             f"Precio: {self._precio}\n"
