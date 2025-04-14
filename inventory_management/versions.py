@@ -5,20 +5,24 @@ from inventario import Producto, Inventario
 
 
 def elija_opcion(): 
-#    while True:
-    print("\t  1 -Reintentar.\n\t  2 -Salir.\n") 
-    opcion = input("\t- Elija 1 o 2: ")
-    if opcion == "1":
-        return 'reintentar'
-    elif opcion == "2":
-#        print("Volver al menu.")
-        nombre = None 
-        categoria = None                              
-        return 'salir'
-    else:
-        print("\n\t- No valido, elegir 1 o 2.")
-        return 'error'
-  
+    while True:
+        print("\t  1 -Reintentar.\n\t  2 -Salir.\n") 
+        opcion = input("\t- Elija 1 o 2: ")
+        if opcion == "1":
+            return 'reintentar'
+            break
+        elif opcion == "2":
+    #        print("Volver al menu.")
+            nombre = None 
+            categoria = None                              
+            return 'salir'
+            salir_al_menu = True
+            break
+        else:
+            print("\n\t- No valido, elegir 1 o 2.")
+            return 'error'
+            continue
+    return True
    
 
 
@@ -301,3 +305,4 @@ while True:
     except ValueError:
         print("-ERROR! Debe introducir un numero.")
         
+                        
