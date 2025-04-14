@@ -37,11 +37,14 @@ class Producto:
             self._cantidad = cantidad
        
     def mostrar_info(self):
-        
-        print(f"\nProducto: {self._nombre}\n"
-            f"Categoria: {self._categoria}\n"
-            f"Precio: {self._precio}\n"
-            f"Cantidad: {self._cantidad}\n")
+        producto = [{
+            'Nombre': self._nombre,
+            'Categoria': self._categoria,
+            'Precio': self._precio,
+            'Cantidad': self._cantidad,
+        }]
+        df_producto = pd.DataFrame(producto)
+        return df_producto
         
 class Inventario:
     def __init__(self):

@@ -194,19 +194,23 @@ while True:
         elif opcion == 5:
             while not salir_al_menu:                
                 nombre_producto = input("\t- Introduzca el nombre del producto a buscar: ")
-                producto = inventario.buscar_producto(nombre_producto) 
-                if producto:                      
-                    producto.mostrar_info() 
-                    break                  
-                else:                                             
-                    print("\n\t- Producto no encontrado!")
-                    opcion = elija_opcion()                                                                                                                    
-                    if opcion:
-                        salir_al_menu = True  
-                        break
+                if nombre_producto:
+                    producto = inventario.buscar_producto(nombre_producto) 
+                    if producto:                      
+                        df_producto = producto.mostrar_info() 
+                        print(f"\t- Producto encontrado: ")
+                        df_producto.index = df_producto.index + 1
+                        print(df_producto)
+                        break                  
+                    else:                                             
+                        print("\n\t- Producto no encontrado!")
+                        opcion = elija_opcion()                                                                                                                    
+                        if opcion:
+                            salir_al_menu = True  
+                            break
                                                                               
         elif opcion == 6:  
-            print("  Saliendo del programa.")
+            print("\t- Saliendo del programa.")
             sys.exit()            
         else:
             raise ValueError                                
