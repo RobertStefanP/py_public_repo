@@ -81,6 +81,6 @@ class Inventario:
     
     def buscar_producto(self, nombre_producto):  
         for producto in self._inventario:
-            if producto.nombre == nombre_producto:
+            if producto.get_nombre == nombre_producto:
                 return producto 
         return None 
