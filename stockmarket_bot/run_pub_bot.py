@@ -2,15 +2,12 @@ from datetime import datetime
 from email import message
 from ib_insync import Future
 
-from telegram_message import send_telegram_message
-from prints import log_to_file
+from telegram_message import telegram_msg
 from broker_connection import BrokerConnection
-from session_manager import SessionManager
+from session_manager import SessionManager, EventHandler
 from signal_detector import SignalDetector
 from timing_manager import TimingManager
-from event_handler import EventHandler
 from trade_execution import TradeExecution
-from prints import print_error
 
 
 if __name__ == "__main__":     
@@ -29,10 +26,10 @@ if __name__ == "__main__":
             while broker.trading_hours():        
                 if not broker.ib.isConnected(): 
                     current_time = datetime.now().strftime('%H:%M:%S')
-                    send_telegram_message(f"{current_time} - Attempting connection...")                                           
+                    telegram_msg(f"{current_time} - Attempting connection...")                                           
                     result = broker.connect()
                     if result != "connected" or broker.last_error:
-                        send_telegram_message(f"{timestamp} - {result}")
+                        telegram_msg(f"{timestamp} - {result}")
                     else:
                         print(f"{current_time} - ...clientId {broker.clientId} connected.")   
                     event_handler.is_connected = True
@@ -83,9 +80,9 @@ if __name__ == "__main__":
                                         current_time = datetime.now().strftime('%H:%M:%S')                                     
                                         signal, message = signal_detector.check_signals()
                                         position = indicators_value 
+                                        print(f"\n{current_time} - Current: {position[-3]}, {position[-2]}, {position[-1]}")
                                         print(f"{current_time} - Long: bear, bull, bull")
                                         print(f"{current_time} - Short: bull, bear, bear")
-                                        print(f"{current_time} - Current: {position[-3]}, {position[-2]}, {position[-1]}")
                                         print(f"{current_time} - {message}")      
                                                                                
                                         if signal is not None:                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
@@ -120,12 +117,12 @@ if __name__ == "__main__":
                 
     except Exception as e:
         current_time = datetime.now().strftime('%H:%M:%S')         
-        send_telegram_message(f"{current_time} - Critical error in main loop: {e}")    
+        telegram_msg(f"{current_time} - Critical error in main loop: {e}")    
     except KeyboardInterrupt:
         current_time = datetime.now().strftime('%H:%M:%S')
         print(f"{current_time} - Manually closing MESbot!")           
     finally:        
         current_time = datetime.now().strftime('%H:%M:%S')
         result = broker.disconnect() 
-        send_telegram_message(f"{current_time} - {result.title()} from IB.")
+        telegram_msg(f"{current_time} - {result.title()} from IB.")
             

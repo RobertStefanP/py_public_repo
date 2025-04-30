@@ -26,17 +26,17 @@ class SignalDetector:
             df = df[['date', 'open', 'high', 'low', 'close']]        
         return df
 
-    def calculate_indicators(self, historical_data): 
-        if historical_data is not None and not historical_data.empty:              
-            historical_data['midpoint'] = (historical_data['high'] + historical_data['low']) / 2  
-            historical_data['EMA'] = historical_data['midpoint'].ewm(span=10, adjust=False).mean().round(2) 
-            historical_data['SMA'] = historical_data['midpoint'].rolling(window=20).mean().round(2)  
+    def calculate_indicators(self, data): 
+        if data is not None and not data.empty:              
+            data['midpoint'] = (data['high'] + data['low']) / 2  
+            data['EMA'] = data['midpoint'].ewm(span=10, adjust=False).mean().round(2) 
+            data['SMA'] = data['midpoint'].rolling(window=20).mean().round(2)  
             
-            historical_data['EMA'] = historical_data['EMA'].round(2) 
-            historical_data['SMA'] = historical_data['SMA'].round(2) 
+            data['EMA'] = data['EMA'].round(2) 
+            data['SMA'] = data['SMA'].round(2) 
                         
-            historical_data = historical_data.tail(20)                                   
-            return historical_data 
+            data = data.tail(20)                                   
+            return data 
         else:
             return None
 
