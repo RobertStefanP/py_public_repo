@@ -1,6 +1,5 @@
 import requests
 
-
 def telegram_msg(message):            
     # Send to Telegram
     BOT_TOKEN = '??'
