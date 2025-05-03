@@ -1,8 +1,6 @@
 import re
 import sys
-
 from inventario import Producto, Inventario
-
 
 def elija_opcion(): 
     while True:
@@ -62,13 +60,11 @@ if __name__ == '__main__':
                             salir_al_menu = True
                         else:
                             continue
-                    break
-                    
+                    break                    
                 if nombre and not salir_al_menu:
                     categoria = pedir_input_texto("\t- Introduzca la categoria: ")
                     if categoria is None:
                         salir_al_menu = True
-
                     if categoria and not salir_al_menu:
                         precio = pedir_input_float("\t- Precio del producto: ")
                         if precio is None:
@@ -130,20 +126,19 @@ if __name__ == '__main__':
                     nombre_producto = pedir_input_texto("\t- Nombre del producto a buscar: ")
                     if nombre_producto:
                         producto = inventario.buscar_producto(nombre_producto)
-                        if producto:
+                        if producto is not None:
                             df_producto = producto.mostrar_info()
                             df_producto.index = df_producto.index + 1
                             print(f"\t- Producto {nombre_producto} encontrado: ")
                             print(f"\n{df_producto}")
                             break
                         else:
-                            print("\n\t- Producto no encontrado.")
+                            print("\n\t- Producto no encontrado.")                           
                             if elija_opcion():
                                 salir_al_menu = True
                                 break
                     else:
-                        if elija_opcion():
-                            salir_al_menu = True
+                        break
 
             elif opcion == 6:
                 print("\n\t- Saliendo del programa.")        
