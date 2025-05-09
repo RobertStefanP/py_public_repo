@@ -9,7 +9,7 @@ if __name__ == '__main__':
     owner2 = Owner('Jhon', 2000)
     owner3 = Owner('Cristina', 1500)
 
-    bank = BankAccount(owner.owner, owner.total_money)
+    bank = BankAccount(owner.name, owner.money)
 
     while True:
         print(f"""\nChoose an option:
@@ -19,7 +19,7 @@ if __name__ == '__main__':
             4. Make whithdraw
             5. Change interest fees
             6. Check all accounts
-            7. Check total accounts.
+            7. Check number of total accounts.
             8. Exit""")
         opcion = input('Choose an option: ')
 
@@ -27,19 +27,15 @@ if __name__ == '__main__':
             bank.check_account()
 
         elif opcion == '2':
-            unique_id, owner, balance = bank.create_bank_account()
+            account = bank.create_bank_account()
             print(f"""\nNew account created successfully:
-                Id: {unique_id}
-                Name: {owner}
-                Balance: {balance}""")
+                Id: {account['id']}
+                Name: {account['owner'].name}
+                Balance: {account['owner'].money}""")
 
-        elif opcion == '3':           
-            account = bank.make_deposit()
-            if account is None:
-                print(f"\nAccount does not exist, try again.")
-            else:
-                print(f"""\nDeposit succesfully for account id {account.get('id')}
-                    New balance for {account.get('owner')}: {account.get('balance')}""")
+        elif opcion == '3':   
+            print("\n\tMaking a deposit:")        
+            bank.make_deposit()
                 
         elif opcion == '4':
             bank.make_whithdraw()

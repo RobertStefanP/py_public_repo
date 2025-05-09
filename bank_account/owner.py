@@ -1,10 +1,10 @@
 class Owner:
-    def __init__(self, owner, total_money):
-        self.owner = owner
-        self.total_money = total_money
+    def __init__(self, name, money):
+        self.name = name
+        self.money = money
 
     def __str__(self):
-        f"Owner: {self.owner}, Available: {self.total_money}"
+        return f"Owner: {self.name}, Available: {self.money}"
 
     def show_info(self):
-        print(f"Owner of the account: {self.owner}, Available funds: {self.total_money}")
+        print(f"Owner of the account: {self.name}, Available funds: {self.money}")
