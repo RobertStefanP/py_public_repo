@@ -5,11 +5,7 @@ from account import BankAccount
 
 
 if __name__ == '__main__':
-    owner = Owner('Gigel', 1000)
-    owner2 = Owner('Jhon', 2000)
-    owner3 = Owner('Cristina', 1500)
-
-    bank = BankAccount(owner.name, owner.money)
+    bank = BankAccount()
 
     while True:
         print(f"""\nChoose an option:
@@ -24,26 +20,27 @@ if __name__ == '__main__':
         opcion = input('Choose an option: ')
 
         if opcion == '1':
+            print("\n\tChecking an account.")
             bank.check_account()
 
         elif opcion == '2':
+            print("\n\tCreating a bank account.")
             account = bank.create_bank_account()
-            print(f"""\nNew account created successfully:
-                Id: {account['id']}
-                Name: {account['owner'].name}
-                Balance: {account['owner'].money}""")
 
         elif opcion == '3':   
-            print("\n\tMaking a deposit:")        
+            print("\n\tMaking a deposit.")        
             bank.make_deposit()
                 
         elif opcion == '4':
+            print("\n\tMaking a whithdraw.")
             bank.make_whithdraw()
 
         elif opcion == '5':
+            print("Changing interest fees.")
             BankAccount.change_interest_fee()
 
         elif opcion == '6':
+            print("Checking all the accounts.")
             bank.check_all_accounts()
 
         elif opcion == '7':

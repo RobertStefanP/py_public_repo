@@ -2,44 +2,46 @@ from random import randint
 from owner import Owner
 
 
-class BankAccount(Owner):
+class BankAccount():
     interest = 3.5
     total_accounts = 0
     unique_id = 0
-    def __init__(self, name, money):
-        super().__init__(name, money)
+
+    def __init__(self):
         self.accounts = []
-        BankAccount.total_accounts += 1
 
     def __str__(self):
         return f"Total accounts: {BankAccount.total_accounts}, Interests: {BankAccount.interest}"
     
     def check_account(self):
         found = False
-        searched_id = int(input("Enter the searched id: "))
-        if self.accounts: 
-            if searched_id:            
-                for account in self.accounts:
-                    if account.get('id') == searched_id:
-                        found = True
-                        print(f"""Account with id {searched_id} founded:
-                        Owner: {account.get('owner')}
-                        Balance: {account.get('balance')}""")
-                        break       
-                if not found:
-                    print(f"Account with Id {searched_id} not found.")
+        search_id = input("Enter the searched id: ")
+        if search_id.isdigit():
+            searched_id = int(search_id)
+            if self.accounts: 
+                if searched_id:            
+                    for account in self.accounts:
+                        if account.get('id') == searched_id:
+                            found = True
+                            print(f"""Account id {searched_id} was found: {account.get('owner')}""")
+                            break       
+                    if not found:
+                        print(f"Account with Id {searched_id} was not found.")
+            else:
+                print(f"\nNo accounts registered, add some clients.")
         else:
-            print(f"\nNo accounts registered, add some clients.")
-        
+            print(f"{search_id} is not valid, try again.")
+
     def create_bank_account(self):
-        name = input("Insert the owner of the account: ")
+        name = input("Name of the account owner: ")
         if name:
-            BankAccount.unique_id = randint(1000, 9999)
-            for account in self.accounts:
-                if account.get('id') == BankAccount.unique_id:
-                    print(f"Id {BankAccount.unique_id} alredy in use, try a new one.")
-            money = int(input("Insert the ammount of the account: "))
-            if money:
+            BankAccount.unique_id = randint(1, 9999)
+            while any(account['id'] == BankAccount.unique_id for account in self.accounts):
+                BankAccount.unique_id = randint(1, 9999)
+        
+            money_account = input("The ammount of the account: ")
+            if money_account.isdigit():
+                money = int(money_account)
                 owner = Owner(name, money)
                 account = {
                         'id': BankAccount.unique_id,
@@ -47,59 +49,65 @@ class BankAccount(Owner):
                         }
                 self.accounts.append(account)             
                 BankAccount.total_accounts +=1
-                print(f"account: {account}")
-                print(owner)
+                print(f"""\nNew account created successfully:
+                    Id: {account['id']}
+                    Name: {account['owner'].name.title()}
+                    Balance: {account['owner'].money}""")                   
             else:
-                print(f"Enter a valid number.")       
+                print(f"{money_account} is not valid, try again.")       
         else:
             print(f"{owner} is not a valid name, try again.")
-        return account
 
     def make_deposit(self):   
         found = False
-        account_id = int(input("Enter account id: "))
-        for account in self.accounts:
-            if account.get('id') == account_id:
-                found = True
-                insert_amount = input("Enter the amount to deposit: ")         
-                if insert_amount.isdigit():
-                    amount = int(insert_amount)
-                    account['owner'].money += amount 
-                    print(f"""\nDeposit succesfully for account id {account.get('id')}
-                    New balance for {account['owner'].name.title()}: {account['owner'].money}""")
-                    break 
-                else:
-                    print(f"{insert_amount} is not a valid value, try again.")
-                    break 
-        if not found:
-            print(f"Account with id {account_id} not found, try again.")
-
-        
-        
-                
-
-
-
-
-    def make_whithdraw(self):
-        found = False
-        account_id = int(input("Enter the account id: "))
-        if self.accounts:
+        acc_id = input("Enter account id: ")
+        if acc_id.isdigit():
+            account_id = int(acc_id)
             for account in self.accounts:
                 if account.get('id') == account_id:
                     found = True
-                    amount = int(input("The amount to whithdraw: "))    
-                    if account.get('balance') >= amount:                           
-                        balance = account.get('balance')
-                        balance -=amount
-                        account['balance'] = balance
-                        print(f"Whithdraw successfully. New balance: {account['balance']}")
-                        break
-                    else:                           
-                        print(f"Insufficient funds, available: {account.get('balance')}")
-                        break
+                    insert_amount = input("Enter the amount to deposit: ")         
+                    if insert_amount.isdigit():
+                        amount = int(insert_amount)
+                        account['owner'].money += amount 
+                        print(f"""\nDeposit succesfully for account id {account.get('id')}
+                        New balance for {account['owner'].name.title()}: {account['owner'].money}""")
+                        break 
+                    else:
+                        print(f"{insert_amount} is not a valid value, try again.")
+                        break 
             if not found:
-                print(f"Account: {account_id} not found, try again.")
+                print(f"Account with id {account_id} not found, try again.")
+        else:
+            print(f"{acc_id} is not valid, try again.")            
+
+    def make_whithdraw(self):
+        found = False
+        if self.accounts:
+            acc_id = input("Enter the account id: ")
+            if acc_id.isdigit():
+                account_id = int(acc_id)
+                for account in self.accounts:
+                    if account.get('id') == account_id:
+                        found = True
+                        whithdraw_amount = input("The amount to whithdraw: ") 
+                        if whithdraw_amount.isdigit():
+                            amount = int(whithdraw_amount)
+                            if account['owner'].money >= amount:                           
+                                balance = account['owner'].money
+                                balance -=amount
+                                account['owner'].money = balance
+                                print(f"Whithdraw successfully. New balance: {account['owner'].money}")
+                                break
+                            else:                           
+                                print(f"Insufficient funds, available: {account['owner'].money}, try again.")
+                                break       
+                        else:
+                            print(f"{whithdraw_amount} is not valid, try again.")                    
+                if not found:
+                    print(f"Account Id {account_id} not found, try again.")
+            else:
+                print(f"{acc_id} is not valid, try again.")
         else:                           
             print("No accounts, add some clients first.")
     
@@ -120,6 +128,6 @@ class BankAccount(Owner):
                 BankAccount.interest = new_fee
                 print(f"We increase our prices, new interest fee: {new_fee} %")
             else:
-                print(f"We decrease our prices, new interest fee: {new_fee}")
+                print(f"We decrease our prices, new interest fee: {new_fee} %")
         else:
             print(f"{insert_fee} is not valid, try again.")
