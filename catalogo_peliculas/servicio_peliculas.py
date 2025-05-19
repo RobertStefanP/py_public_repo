@@ -5,7 +5,7 @@ from pelicula import Pelicula
 
 
 class ServicioPeliculas:
-    PELICULAS = "peliculas.txt"
+    catalogo = "peliculas.txt"
     
     def __init__(self):
         self.peliculas = []
@@ -16,7 +16,7 @@ class ServicioPeliculas:
         nueva_pelicula = Pelicula(pelicula)
         self.peliculas.append(nueva_pelicula)       
         try:
-            with open(self.PELICULAS, "a") as archivo:
+            with open(self.catalogo, "a") as archivo:
                 archivo.write(f"{nueva_pelicula}\n")
         except Exception as e:
             print(f"Error al guardar la pelicula: {e}")
@@ -25,26 +25,26 @@ class ServicioPeliculas:
     def listar_peliculas(self):
         peliculas = []
         try:           
-            with open(self.PELICULAS, "r") as archivo:
+            with open(self.catalogo, "r") as archivo:
                 for linea in archivo:
                     nombre = linea.strip()
                     pelicula = Pelicula(nombre)
                     peliculas.append(pelicula)     
         except FileNotFoundError:
-            print(f"El archivo {self.PELICULAS} no se econtro.")                                  
+            print(f"El archivo {self.catalogo} no se econtro.")                                  
         except Exception as e:
-            print(f"Ocurrio un error: {e}")
-            
+            print(f"Ocurrio un error: {e}")            
         if peliculas:
-            print("Listado de peliculas:")
+            contador = 0
+            print("Listado de peliculas:\n")
             for pelicula in peliculas:
-                print(f"-> {pelicula}")      
+                contador += 1
+                print(f"Pelicula {contador}: {pelicula}")      
         else:
             print("No hay peliculas en el catalogo.")  
         self.peliculas = peliculas
-        return peliculas
          
     def eliminar_catalogo(self):
-        os.remove("peliculas.txt")
-        print(f"Archivo eliminado: {self.PELICULAS}.")
+        os.remove(self.catalogo)
+        print(f"Archivo eliminado: {self.catalogo}.")
             

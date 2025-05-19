@@ -9,8 +9,7 @@ class AppCatalogoPeliculas:
         self.servicio_peliculas = ServicioPeliculas()
         
     def menu_peliculas(self):
-        salir = False
-        while not salir:
+        while True:
             print("""Opciones:
                 1. Agregar Pelicula
                 2. Listar Peliculas
@@ -26,13 +25,16 @@ class AppCatalogoPeliculas:
                     self.servicio_peliculas.eliminar_catalogo()
                 elif opcion == 4:
                     print("Salimos del programa...")
-                    return True
+                    break
                 else:            
-                    print("Invalido, introduce un numero de 1 a 4.")
+                    print("Invalido, introduce un numero de 1 a 4.")                    
             except ValueError:
                 print(f"Error: Introduce un numero valido.")    
+            except Exception as e:
+                print(f"Ocurrio un error: {e}")
    
    
 if __name__ == '__main__':
-    catalogo_peliculas = AppCatalogoPeliculas()
-    catalogo_peliculas.menu_peliculas()
+    app = AppCatalogoPeliculas()
+    app.menu_peliculas()
+    
