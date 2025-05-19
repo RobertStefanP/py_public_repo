@@ -1,4 +1,3 @@
-from csv import Error
 import os.path
 from pelicula import Pelicula
 
