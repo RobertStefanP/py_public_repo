@@ -1,5 +1,4 @@
 from csv import Error
-import errno
 import os.path
 from pelicula import Pelicula
 
