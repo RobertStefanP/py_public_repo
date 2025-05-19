@@ -6,9 +6,7 @@ from servicio_peliculas import ServicioPeliculas
 class AppCatalogoPeliculas:
     
     def __init__(self):
-        self.peliculas = []
         self.servicio_peliculas = ServicioPeliculas()
-        self.pelicula = Pelicula(nombre = "")
         
     def menu_peliculas(self):
         salir = False
@@ -27,20 +25,14 @@ class AppCatalogoPeliculas:
                 elif opcion == 3:
                     self.servicio_peliculas.eliminar_catalogo()
                 elif opcion == 4:
-                    print("Hasta pronto.")
+                    print("Salimos del programa...")
                     return True
                 else:            
                     print("Invalido, introduce un numero de 1 a 4.")
             except ValueError:
                 print(f"Error: Introduce un numero valido.")    
-                        
-    def listar_pelicula(self):        
-        pass
-    
-    def eliminar_catalogo(self):
-        pass
-            
-    
+   
+   
 if __name__ == '__main__':
     catalogo_peliculas = AppCatalogoPeliculas()
     catalogo_peliculas.menu_peliculas()
