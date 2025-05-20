@@ -34,5 +34,3 @@ CREATE TABLE cliente (
     apellido VARCHAR(50),
     membresia INT
 );
-
-
