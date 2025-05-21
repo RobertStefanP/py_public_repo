@@ -28,8 +28,7 @@ them into folders like "Images", "Documents", or "Videos".
 
 ## Project Structure
 
-- `app.py` — Runs the program
-- `organizer.py` — Main controller logic
+- `organizer.py` — Runs the program and main controller logic
 - `file_manager.py` — Handles scanning and moving files
 - `categories.py` — Contains file type categories
-- `utils.py` — (Optional) Helper functions for logging or time
+
