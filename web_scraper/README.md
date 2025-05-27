@@ -1,6 +1,7 @@
 # GG.Deals Game Scraper
 
-This project scrapes PC game deals from [gg.deals](https://gg.deals/games/pc/), collecting titles, prices, discounts, and game IDs.
+This project scrapes PC game deals from [gg.deals](https://gg.deals/games/pc/), 
+collecting titles, prices, discounts, and game IDs.
 
 ## What It Does
 
@@ -29,11 +30,18 @@ This project scrapes PC game deals from [gg.deals](https://gg.deals/games/pc/), 
 - Numeric prices are cleaned (`"52,41"` → `52.41`)
 - Discounts are stripped of `%` and stored as integers
 
-##  Setup
+##  How to run
 
 1. Install requirements:
-   ```bash
-   pip install selenium mysql-connector-python
+  pip install selenium mysql-connector-python
+2. Clone the repository
+3. Navigate to the folder
+4. Execute: python gg_scraper.py
+
+## Output
+
+- games.csv - A CSV file with all scraped game data
+- game_list table -MySQL table storing the same data
 
 ##  Data Base table
 

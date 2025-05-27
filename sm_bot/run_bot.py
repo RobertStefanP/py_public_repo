@@ -2,7 +2,7 @@ from datetime import datetime
 from email import message
 from ib_insync import Future
 
-from telegram_message import telegram_msg
+from telegram_msg import telegram_msg
 from broker_connection import BrokerConnection
 from session_manager import SessionManager, EventHandler
 from signal_detector import SignalDetector
@@ -31,8 +31,7 @@ if __name__ == "__main__":
                     if result != "connected" or broker.last_error:
                         telegram_msg(f"{timestamp} - {result}")
                     else:
-                        print(f"{current_time} - ...clientId {broker.clientId} connected.")   
-                    event_handler.is_connected = True
+                        print(f"{current_time} - ...clientId {broker.clientId} connected.") 
 
                     while broker.trading_hours():          
                         current_time = datetime.now().strftime('%H:%M:%S')              
@@ -42,7 +41,7 @@ if __name__ == "__main__":
 
                         while session_manager.open_orders or session_manager.open_positions: 
                             current_time = datetime.now().strftime('%H:%M:%S')     
-                            session_manager.monitoring_orders_mode = True                            
+                            session_manager.monitoring_orders = True                            
                             print(f"{current_time} - Orders/positions active at startup. Waiting to be filled/canceled.") 
                             broker.ib.sleep(30)
 
@@ -88,9 +87,9 @@ if __name__ == "__main__":
                                         if signal is not None:                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
                                             sl, tp = trade_execution.place_bracket_order(current_price, signal)                                            
                                             print(f"{current_time} - Bracket order placed, with SL at {sl} and TP at {tp}")                                                
-                                            session_manager.monitoring_orders_mode = True
+                                            session_manager.monitoring_orders = True
                                             
-                                            while session_manager.monitoring_orders_mode:
+                                            while session_manager.monitoring_orders:
                                                 current_time = datetime.now().strftime('%H:%M:%S')
                                                 monitoring_orders_mode = True
                                                 print(f"{current_time} - Active orders, waiting...")

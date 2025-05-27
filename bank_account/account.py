@@ -1,5 +1,6 @@
 from random import randint
 from owner import Owner
+import re
 
 
 class BankAccount():
@@ -34,7 +35,7 @@ class BankAccount():
 
     def create_bank_account(self):
         name = input("Name of the account owner: ")
-        if name:
+        if re.fullmatch(r"[a-zA-Z]{3,15}",name):
             BankAccount.unique_id = randint(1, 9999)
             while any(account['id'] == BankAccount.unique_id for account in self.accounts):
                 BankAccount.unique_id = randint(1, 9999)
@@ -56,7 +57,8 @@ class BankAccount():
             else:
                 print(f"{money_account} is not valid, try again.")       
         else:
-            print(f"{owner} is not a valid name, try again.")
+            print(f"""'{name}' is not a valid name, min 3 characters,  15 max,
+                  no numbers!""")
 
     def make_deposit(self):   
         found = False
@@ -119,7 +121,7 @@ class BankAccount():
             print(f"No accounts availble, add some clients.")
 
     @classmethod
-    def change_interest_fee(self):
+    def change_interest_fee(cls):
         old_interest = BankAccount.interest 
         insert_fee = input("Enter the new fee: ")
         if insert_fee.isdigit():

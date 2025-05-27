@@ -1,7 +1,7 @@
 import requests
 
 
-def telegr_msg(message):            
+def telegram_msg(message):            
     # Send to Telegram
     BOT_TOKEN = '??'
     CHAT_ID = '??'

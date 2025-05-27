@@ -4,7 +4,6 @@ This is a simple Python project that organizes files on your desktop. It scans
 the folder, detects file types by extension (like .jpg, .pdf, .mp4), and moves 
 them into folders like "Images", "Documents", or "Videos".
 
----
 
 ## Features
 
@@ -14,7 +13,6 @@ them into folders like "Images", "Documents", or "Videos".
 - Creates folders if they don’t exist
 - Keeps your desktop clean and organized
 
----
 
 ## How It Works
 
@@ -24,7 +22,6 @@ them into folders like "Images", "Documents", or "Videos".
 4. It moves the file to a matching category folder
 5. Files with unknown types go into the "Others" folder
 
----
 
 ## Project Structure
 
@@ -32,3 +29,9 @@ them into folders like "Images", "Documents", or "Videos".
 - `file_manager.py` — Handles scanning and moving files
 - `categories.py` — Contains file type categories
 
+
+## How to execute
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Run the script: python organizer.py

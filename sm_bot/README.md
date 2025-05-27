@@ -1,8 +1,7 @@
 # Stock Market Trading Bot (MES Futures, IB API)
 
-This bot connects to the **Interactive Brokers API** and trades **MES futures contracts** during active trading hours.
-
----
+This bot connects to the **Interactive Brokers API** and trades 
+**MES futures contracts** during active trading hours.
 
 ## What It Does
 
@@ -14,15 +13,12 @@ This bot connects to the **Interactive Brokers API** and trades **MES futures co
 - Enters **monitoring mode** to track open orders and positions
 - Sends key status updates to a **private Telegram channel**
 
----
-
 ## Market Hours Handling
 
 - Runs continuously and checks if current time is within **trading hours**
 - Sleeps when market is closed
 - Wakes and resumes automatically when market reopens
-
----
+- Place different StopLoss types based on certain hours
 
 ## Logic Flow
 
@@ -35,17 +31,15 @@ This bot connects to the **Interactive Brokers API** and trades **MES futures co
    - At minute `:05:08` of each 5-minute candle, checks for crossover signals
    - If no open positions, evaluates signal and executes trade accordingly
 4. **Order tracking**:
-   - After placing a trade, continuously monitors bracket orders until they are filled or canceled
+   - After placing a trade, continuously monitors bracket orders until they are 
+   filled or canceled
 5. **Looping**:
    - After order closure, resumes signal checking if market is still open
 
----
-
 ## Notifications
 
-- Key trade events and updates are sent via a **Telegram bot** to a private channel for monitoring and alerts
-
----
+- Key trade events and updates are sent via a **Telegram bot** to a private 
+channel for monitoring and alerts
 
 ## Requirements
 
@@ -54,9 +48,7 @@ This bot connects to the **Interactive Brokers API** and trades **MES futures co
 - Python libraries:
   - `ib_insync`
   - `pandas`, `datetime`, `time`
-  - `telegram` (or any other bot wrapper)
-
----
+  - `telegram`
 
 ## Notes
 
@@ -64,3 +56,8 @@ This bot connects to the **Interactive Brokers API** and trades **MES futures co
 - Designed for **educational and testing purposes**
 - Can be extended with logging, database storage, or advanced risk management
 
+## How to run
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Execute: run_bot.py

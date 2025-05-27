@@ -1,15 +1,15 @@
-##  Mad Libs Story Generator
+## Mad Libs Story Generator
 
-Este programa lee una historia con "espacios en blanco" marcados como <palabra> y permite al usuario completar la historia con palabras personalizadas.
+This program reads a story with "blanks" marked as <word> and allows the user 
+to complete the story with custom words.
 
-##  Funcionalidades
+## Features
 
-Reemplaza palabras marcadas con < > por entradas del usuario
-Imprime la historia final completa
+- Replaces words marked with < > using user input
+- Prints the complete final story
 
-##  Conceptos Aplicados
+## Concepts Applied
 
-Manipulación de texto y cadenas
-Lectura de archivos (story.txt)
-Uso de conjuntos para palabras únicas
-
+- Text and string manipulation
+- File reading (`story.txt`)
+- Use of sets for unique words

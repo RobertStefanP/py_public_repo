@@ -1,6 +1,7 @@
 ##  Dice Rolling Game (Python)
 
-A fun dice-rolling game where 2 to 4 players take turns rolling until someone reaches the max score.
+A fun dice-rolling game where 2 to 4 players take turns rolling until someone 
+reaches the max score.
 
 ##  Features
 

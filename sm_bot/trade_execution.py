@@ -14,8 +14,7 @@ class TradeExecution:
     def place_bracket_order(self, current_price, signal_type):
         try: 
             if not current_price:
-                return None, None
-        
+                return None, None        
             sl = current_price - 10 if signal_type == 'bullish' else current_price + 10
             tp = current_price + 20 if signal_type == 'bullish' else current_price - 20
         
@@ -41,10 +40,7 @@ class TradeExecution:
             self.ib.placeOrder(self.contract, take_profit_order)
             
             self.session_manager.monitoring_orders_mode = True
-
-            return sl, tp
-        
+            return sl, tp        
         except Exception as e: 
-            print_error(str(e))
-            
+            print_error(str(e))           
             return None, None
