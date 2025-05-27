@@ -36,16 +36,16 @@ while True:
     else:
         print("Error! Insert a valid number, 2 to 4!")
     
-max_score = 50
+max_score = 30
 players_scores = [0 for _ in range(nr_players)]
 
-while max(players_scores) < max_score:   
-    for player_idx in range(nr_players):
+while max(players_scores) < max_score: # Loop until any player reaches 50 or more points.
+    for player_idx in range(nr_players): # Each player's turn in the round.
         turn_score = play_turn(player_idx, players_scores[player_idx])        
         players_scores[player_idx] += turn_score
         print(f"Your total score is {players_scores[player_idx]}.")    
 
 max_score = max(players_scores)            
-winning_idx = players_scores.index(max_score)
+winning_idx = players_scores.index(max_score) # Finds the max score and the index of the player who has it.
 print(f"Player number {winning_idx + 1} won with {max_score} points.")
         

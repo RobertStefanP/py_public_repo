@@ -5,6 +5,8 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 import mysql.connector
 import csv
+import time
+
 
 from db_connection import Connection
 
@@ -14,6 +16,7 @@ def start_browser():
     options = Options()
     options.binary_location = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"
     options.add_argument("--start-maximized")
+    time.sleep(3)
     
     service = Service(r"C:\Users\Robert\all_python\py_public_repo\web_scraper\chrome_driver\chromedriver.exe")
     driver = webdriver.Chrome(service=service, options=options)
