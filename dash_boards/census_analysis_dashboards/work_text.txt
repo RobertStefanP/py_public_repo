@@ -1,0 +1,9 @@
+Plot Type	        Use Case
+Bar plot	        Compare categories (e.g. degree, gender)
+Pie chart	        Show proportions
+Line plot	        Trends over time (less useful for your data)
+Scatter	            Relationships (e.g. age vs hours worked)
+Histogram	        Distribution (e.g. age, hours per week)
+Box plot	        Spread + median (e.g. income by age group)
+Stacked bars	    Compare sub-groups inside categories
+Horizontal bars	    When labels are long or too many
