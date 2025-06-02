@@ -32,6 +32,7 @@ labels = [
 
 # Advanced concept suggested by AI to sort the bars in descended order
 labels, values = zip(*sorted(zip(labels, values), key=lambda x: x[1], reverse=True))
+
 plt.figure(figsize=(10, 6))
 plt.bar(labels, values)
 plt.title("Education Level Distribution")

@@ -83,7 +83,7 @@ class Calculate:
             mar_pers_60_70, single_60_70, mar_pers_70_80, single_70_80, 
             mar_pers_80_90, single_80_90)
                        
-    def genders_status(self):
+    def martial_status(self):
         """Returns four lists: single males, married males, single females, 
             and married females."""
         singles_males = []
@@ -134,7 +134,7 @@ class Calculate:
                 pass  
         return mar_fem_abv_30, mar_fem_und_30, mar_male_abv_30, mar_male_und_30              
     
-    def gender_income(self):
+    def gender_income(self): 
         """Returns four lists: males and females with income conditions, split 
             by age (above or under 30)."""
         male_inc_und_30 = []
@@ -269,10 +269,11 @@ class Calculate:
         worked_hours_females, worked_hours_females_abv_40, worked_hours_females_undr_40)
         
 
-if __name__ == "__main__":          
+if __name__ == "__main__": 
+    """Just for testing purpose."""         
     calculate = Calculate() 
     males, females  = calculate.genders_total() # 
-    singles_males, mar_males, singles_females, mar_females = calculate.genders_status()
+    singles_males, mar_males, singles_females, mar_females = calculate.martial_status()
     mar_fem_abv_30, mar_fem_und_30, mar_male_abv_30, mar_male_und_30 = calculate.age_martial_status()
     degrees = calculate.get_all_degrees()
     print(degrees)
