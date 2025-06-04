@@ -53,6 +53,7 @@ CREATE TABLE cliente (
 ```
 
 ## Como usarlo
+
 1. Clona el repositorio
 2. Navega a la carpeta del proyecto
 3. Para menu en terminal usar: python menu.py

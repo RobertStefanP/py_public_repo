@@ -45,15 +45,32 @@ class Calculate():
         weekly_sales.index = weekly_sales.index.astype(str)
         return weekly_sales
         
-    def category_monthly_sales(self):
+    def sales_by_category(self):
         """Returns monthly sales from the beggining by category."""
         self.data["Order Date"] = pd.to_datetime(self.data["Order Date"], dayfirst=True)
+        self.data["YearMonth"] = self.data["Order Date"].dt.to_period("M")         
+        sales_by_category = self.data.groupby(["YearMonth", "Category"])["Sales"].sum()   
+        sales_by_category = sales_by_category.unstack() # Columns = categories, index = months
+        sales_by_category.index = sales_by_category.index.astype(str)    
+        return sales_by_category
+    
+    def sales_by_region(self):
+        """Returns all time sales by region."""
+        self.data["Order Date"] = pd.to_datetime(self.data["Order Date"], dayfirst=True)
         self.data["YearMonth"] = self.data["Order Date"].dt.to_period("M")        
-        monthly_sales = self.data.groupby("YearMonth")["Sales"]
-        grouped = self.data.groupby(["YearMonth", "Category"])["Sales"].sum()   
-        grouped = grouped.unstack() # Columns = categories, index = months
-        grouped.index = grouped.index.astype(str)    
-        return grouped
+        sales_by_region = self.data.groupby(["YearMonth", "Region"])["Sales"].sum()
+        sales_by_region = sales_by_region.unstack()
+        sales_by_region.index = sales_by_region.index.astype(str)
+        return sales_by_region
+        
+    def sales_by_segment(self):
+        """Returns data to calculate sales by segment."""
+        self.data["Order Date"] = pd.to_datetime(self.data["Order Date"], dayfirst=True)
+        self.data["YearMonth"] = self.data["Order Date"].dt.to_period("M")
+        sales_by_segment = self.data.groupby(["YearMonth", "Segment"])["Sales"].sum()
+        sales_by_segment = sales_by_segment.unstack()
+        sales_by_segment.index = sales_by_segment.index.astype(str)
+        return sales_by_segment
     
 if __name__ == "__main__":
     calculate = Calculate()
